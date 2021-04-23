@@ -5,7 +5,7 @@
       function renderLogIn()
 	{
 		var dId=getCookie("dId");
-        document.getElementById("didNo").value=dId.toString();
+        document.getElementById("newLogin").innerHTML="<input type=\"text\" name=\"dId\" hidden=\"true\" value="+dId+" />"
         console.log(dId)
         //document.getElementById("newLogin").submit();
 	}
@@ -28,7 +28,7 @@
 </head>
 <body onload="renderLogIn()">
 <form id="newLogin" autocomplete="off" method='POST' enctype='multipart/form-data' actions={{url_for('home')}} hidden="true" >
-<input type="text" id="didNo" name="dId" hidden="true" value=0 />
+
 </form>
 </body>
 </html>
