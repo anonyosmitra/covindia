@@ -6,8 +6,9 @@
     <script>
         dId={{dId}};
         methods={}
+        function renderApp(){
         document.cookie="dId="+dId;
-        document.getElementById("city").focus();
+        document.getElementById("city").focus();}
         function search()
         {
             POST({"city":document.getElementById("city").value,"resource":document.getElementById("city").value},"search")
@@ -81,7 +82,7 @@
     </script>
     </head>
 <body>
-    <select id="city">
+    <select onload="renderApp()" id="city">
         <option selected disabled>Select City</option>
         {%for i in cities%}
         <option value={{i["id"]}} >{{i["name"]}}</option>
