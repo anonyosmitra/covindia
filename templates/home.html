@@ -101,6 +101,10 @@
 		console.log(data)
 		POST({"dId":dId,"data":data,"formId":id},"new")
 		}
+		function vote(mark,post)
+		{
+		    POST({"dId":dId,"mark":mark,"post":post},"vote")
+		}
     </script>
     </head>
 <body>
