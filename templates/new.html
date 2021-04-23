@@ -1,4 +1,4 @@
-<input placeholder="City*" list="cities" id="new_city"><br>
+<input onload="document.getElementById('new_city').focus()" placeholder="City*" list="cities" id="new_city"><br>
 <datalist id="cities">
 {%for i in cities%}
   <option value="{{i["name"]}}" />
