@@ -41,7 +41,7 @@ def search():
 	posts=con.getTable("review,post,user",["post.id","post.time","phone","name"],where={"city":int(data["city"]),"resource":int(data["resource"]),"post.enabled":True,"user.enabled":True},join={"post.id":"post","post.user":"user.id"},ext="group by post order by sum(mark) DESC",columnNames=["id","time","phone","name"])
 	print(posts)
 	for i in posts:
-		i["time"]=tz.convertTo(i["time"],"Asia/Kolkata",fmt="%-d %b, %-I:%M% %p")
+		i["time"]=tz.convertTo(i["time"],"Asia/Kolkata",fmt="%-d %b, %-I:%M %p")
 	return jsonify({"reply": {"auth": 1, "reply": {"html":render_template("searchRes.html",city=city,resource=resource,posts=posts)}}})
 
 @app.route('/getPost', methods=['POST'])
@@ -49,10 +49,10 @@ def getPost():
 	data = request.json
 	con=dbh.Connect()
 	post=con.getTable("post",["id","time","phone","info","name","user"],{"id":data["id"]})[0]
-	post["time"] = tz.convertTo(post["time"], "Asia/Kolkata", fmt="%-d %b, %-I:%M% %p")
+	post["time"] = tz.convertTo(post["time"], "Asia/Kolkata", fmt="%-d %b, %-I:%M %p")
 	positives=con.getTable("review",["sum(mark)"],where=con.appendQuery("post=%0 and mark>-1",[data["id"]]))
 	verified=con.getTable("review",["time"],where=con.appendQuery("post=%0 and mark>-1",[data["id"]]),ext="order by time DESC LIMIT 1")[0]["time"]
-	verified=tz.convertTo(verified, "Asia/Kolkata", fmt="%-d %b, %-I:%M% %p")
+	verified=tz.convertTo(verified, "Asia/Kolkata", fmt="%-d %b, %-I:%M %p")
 	if len(positives)==0:
 		positives=""
 	else:
