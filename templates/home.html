@@ -34,8 +34,6 @@
 			if(data["auth"]===1)
 			{
 		if(keyInJson('html',data["reply"])){
-				setPageName(null);
-				resetPacks();
 				document.getElementById('body').innerHTML="<br><input style=\"margin-left:15%;\" type=\"button\" onclick=\"closeWindow()\" value=\"X\"/><br>"+data["reply"]["html"];
 				}
 		if(keyInJson('pageName',data["reply"])){
