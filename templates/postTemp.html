@@ -1,6 +1,6 @@
 <b>{{post["name"]}}</b>
 {%if dId==post["user"]%}<input onclick="edit({{post["id"]}})" value="Edit"/>{%else%}
-<input type="button" onclick="vote(1,{{post["id"]})" value="Vote Up" /> <input type="button" onclick="vote(-1,{{post["id"]})" value="Vote Down" />
+<input type="button" onclick="vote(1,{{post["id"]}})" value="Vote Up" /> <input type="button" onclick="vote(-1,{{post["id"]}})" value="Vote Down" />
 {%endif%}
 <br>
 {{positive}}<br>
