@@ -66,6 +66,15 @@
 		  document.getElementById("post_"+arg["id"]).hidden=false;
 		}
 		methods=Object.assign(methods,{"displayPost":displayPost})
+				function keyInJson(k,json)
+		{
+			for(var i in json)
+			{
+				if(i===k)
+					return(true);
+			}
+			return(false);
+		}
     </script>
     </head>
 <body>
