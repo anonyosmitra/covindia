@@ -1,7 +1,6 @@
 import json
 import requests
 from flask import Flask, render_template, request, jsonify, send_file
-from flask_cors import CORS
 import tabBackEnd as tbe
 import dbHandler as dbh
 import timezone as tz
@@ -15,7 +14,6 @@ import ssl,socket
 getTab={"Country":tbe.getCountryTab,"Region":tbe.getRegionTab,"State":tbe.getStateTab,"City":tbe.getCityTab}
 newEntry={"Country":tbe.newCountry,"Region":tbe.newRegion,"State":tbe.newState,"City":tbe.newCity}
 application = app = Flask(__name__)
-CORS(app)
 
 @app.route('/', methods=['GET','POST'])
 def home():
