@@ -33,6 +33,7 @@ def home():
 @app.route('/search', methods=['POST'])
 def search():
 	data = request.json
+	print(data)
 	con=dbh.Connect()
 	city=con.getTable("cities",["name"],{"id":data["city"]})[0]["city"]
 	resource = con.getTable("cities", ["name"], {"id": data["resource"]})[0][["resource"]]
