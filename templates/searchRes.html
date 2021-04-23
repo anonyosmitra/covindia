@@ -1,5 +1,5 @@
 <h5>Results for {{resource}} in {{city}}</h5>
 {%for i in posts%}
-<div class="resTitle" onclick="loadPost({{i["id"]}})">{{i["name"]}, Posted: {{i["time"]}} <a href="tel:{{i["phone"]}}" rel="nofollow">Call</a></div>
+<div class="resTitle" onclick="loadPost({{i["id"]}})">{{i["name"]}}, Posted: {{i["time"]}} <a href="tel:{{i["phone"]}}" rel="nofollow">Call</a></div>
 <div id="post_{{i["id"]}}" hidden=true></div>
 {%endfor%}
