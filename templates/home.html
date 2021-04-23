@@ -18,7 +18,7 @@
             else
                 document.getElementById("post_"+id).hidden=true;
         }
-        function new()
+        function newPost()
         {
             POST({"dId":dId},"new")
         }
@@ -92,7 +92,7 @@
         <option value={{i["id"]}} >{{i["name"]}}</option>
         {%endfor%}
     </select>
-    <input type="button" onclick="search()" value="Search" /><input type="button" onclick="new()" value="Add Resource" />
+    <input type="button" onclick="search()" value="Search" /><input type="button" onclick="newPost()" value="Add Resource" />
 <div id="body"></div>
 </body>
 </html>
