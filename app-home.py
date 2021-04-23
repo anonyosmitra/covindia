@@ -53,6 +53,7 @@ def getPost():
 	positives=con.getTable("review",["sum(mark)"],where=con.appendQuery("post=%0 and mark>-1",[data["id"]]))
 	verified=con.getTable("review",["time"],where=con.appendQuery("post=%0 and mark>-1",[data["id"]]),ext="order by time DESC LIMIT 1")[0]["time"]
 	verified=tz.convertTo(verified, "Asia/Kolkata", fmt="%-d %b, %-I:%M %p")
+	post["info"]=post["info"].replace("\n","<br>")
 	if len(positives)==0:
 		positives=""
 	else:
