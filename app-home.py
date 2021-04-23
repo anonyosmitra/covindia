@@ -10,8 +10,6 @@ import os
 import requests
 import timezone as tz
 import ssl,socket
-getTab={"Country":tbe.getCountryTab,"Region":tbe.getRegionTab,"State":tbe.getStateTab,"City":tbe.getCityTab}
-newEntry={"Country":tbe.newCountry,"Region":tbe.newRegion,"State":tbe.newState,"City":tbe.newCity}
 application = app = Flask(__name__)
 
 @app.route('/', methods=['GET','POST'])
