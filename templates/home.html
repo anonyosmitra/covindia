@@ -71,7 +71,7 @@
 		  document.getElementById("post_"+arg["id"]).innerHTML=arg["html"]
 		  document.getElementById("post_"+arg["id"]).hidden=false;
 		}
-		methods=Object.assign(methods,{"displayPost":displayPost,"displayError":displayError})
+		methods=Object.assign(methods,{"displayPost":displayPost,"displayError":displayError,"focusOn":focusOn})
 				function keyInJson(k,json)
 		{
 			for(var i in json)
@@ -104,6 +104,9 @@
 		function vote(mark,post)
 		{
 		    POST({"dId":dId,"mark":mark,"post":post},"vote")
+		}
+		function focusOn(arg){
+			document.getElementById(arg["div"]).focus();
 		}
     </script>
     </head>
