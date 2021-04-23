@@ -90,12 +90,12 @@ def new():
 				data["resource"] = info[0]["id"]
 			else:
 				data["resource"] = con.insertIntoTable("resource", {"name": data["resource"]}, returnId=True)
-			data["user"]=dId["id"]
+			data["user"]=dId[0]["id"]
 			data["enabled"]=True
 			info=con.getTable("forms",["id"],{"id":formId,"received":0})
 			if len(info)==1:
 				postId=con.insertIntoTable("post",data,returnId=True)
-				con.insertIntoTable("review",{"post":postId,"user":dId["id"],"mark":0})
+				con.insertIntoTable("review",{"post":postId,"user":dId[0]["id"],"mark":0})
 				con.updateTable("forms",{"received":1},{"id":formId})
 			con.close()
 			return (jsonify({"reply": {"auth": 1, "reply": {"html":"<h3>Resource Posted!<h3> <b>Thank you for your assistance.</b>"}}}))
