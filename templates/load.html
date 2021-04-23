@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script onload="renderLogIn()">
+    <script>
       function renderLogIn()
 	{
 		var dId=getCookie("dId");
@@ -26,8 +26,8 @@
 }
     </script>
 </head>
-<body>
-<form id="newLogin" autocomplete="off" method='POST' enctype='multipart/form-data' actions={{url_for('home')}} hidden="true">
+<body onload="renderLogIn()">
+<form id="newLogin" autocomplete="off" method='POST' enctype='multipart/form-data' actions={{url_for('home')}} hidden="true" >
 <input type="text" id="didNo" name="dId" hidden="true" value=""/>
 </form>
 </body>
