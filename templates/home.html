@@ -60,7 +60,7 @@
 		function displayPost(arg)
 		{
 		  console.log(arg)
-		  document.getElementById("post_"+arg["id"]).InnerHTML=arg["html"]
+		  document.getElementById("post_"+arg["id"]).innerHTML=arg["html"]
 		  document.getElementById("post_"+arg["id"]).hidden=false;
 		}
 		methods=Object.assign(methods,{"displayPost":displayPost})
