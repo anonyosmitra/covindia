@@ -19,6 +19,7 @@ def home():
 	else:
 		dId=request.form['dId']
 		con=dbh.Connect()
+		print(dId)
 		info=con.getTable("user", ["enabled"],{"id": dId})
 		if dId=="" or len(con)==0:
 			dId=con.insertIntoTable("user",{"ip":request.remote_addr,"enabled":1},returnId=True)
