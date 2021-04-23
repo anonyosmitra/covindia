@@ -69,7 +69,7 @@ def new():
 		resources = con.getTable("resource", ["id", "name"], ext="order by name")
 		formId = con.insertIntoTable("forms",{"type":"newPost"},returnId=True)
 		con.close()
-		return(render_template("new.html",cities=cities,resources=resources,formId=formId))
+		return(jsonify({"reply": {"auth": 1, "reply": {"html":render_template("new.html",cities=cities,resources=resources,formId=formId)}}}))
 
 
 if __name__ == '__main__':
