@@ -60,6 +60,7 @@
 		}}
 		function displayPost(arg)
 		{
+		  console.log("displaying")
 		  document.getElementById("post_"+arg["id"]).InnerHTML=arg["html"]
 		  document.getElementById("post_"+arg["id"]).hidden=false;
 		}
