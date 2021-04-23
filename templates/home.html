@@ -34,7 +34,7 @@
 			if(data["auth"]===1)
 			{
 		if(keyInJson('html',data["reply"])){
-				document.getElementById('body').innerHTML="<br><input style=\"margin-left:15%;\" type=\"button\" onclick=\"closeWindow()\" value=\"X\"/><br>"+data["reply"]["html"];
+				document.getElementById('body').innerHTML=data["reply"]["html"];
 				}
 		if(keyInJson('pageName',data["reply"])){
 			setPageName(data["reply"]["pageName"]);
