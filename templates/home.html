@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid Resources</title>
+    <script>
+        dId={{dId}};
+        methods={}
+        document.cookie="dId="+dId;
+        function search()
+        {
+            POST({"city":document.getElementById("city").value,"resource":document.getElementById("city").value},"search")
+        }
+        function loadPost(id)
+        {
+            if(document.getElementById("post_"+id).hidden)
+                POST({"id":id,"dId":dId},"getPost")
+            else
+                document.getElementById("post_"+id).hidden=true;
+        }
+    function POST(data,route="")
+		{
+		    api="{{url_for('home')}}"
+			getApp.open('POST',api+route);
+			getApp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+			getApp.send(JSON.stringify(data))
+		}
+		var getApp = new XMLHttpRequest();
+		getApp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+			var data = JSON.parse(this.response)["reply"];
+			console.log(data);
+			if(data["auth"]===1)
+			{
+		if(keyInJson('html',data["reply"])){
+				setPageName(null);
+				resetPacks();
+				document.getElementById('body').innerHTML="<br><input style=\"margin-left:15%;\" type=\"button\" onclick=\"closeWindow()\" value=\"X\"/><br>"+data["reply"]["html"];
+				}
+		if(keyInJson('pageName',data["reply"])){
+			setPageName(data["reply"]["pageName"]);
+		}
+		if(keyInJson('exe',data["reply"]))
+		{
+			for(var i=0;i<data["reply"]['exe'].length;i++)
+			{
+
+				methods[data["reply"]['exe'][i]["method"]](data["reply"]['exe'][i]['arg']);
+			}
+		if(keyInJson('run',data["reply"]))
+		{
+			methods[data["reply"]["run"]]();
+		}
+			}}
+			else
+			{
+				console.log("reload page");
+				alert("session expired! click ok to reload app");
+				location["href"]="http://fluidos.anonyo.net";
+			}
+		}}
+		function displayPost(arg)
+		{
+		  document.getElementById("post_"+arg["id"]).InnerHTML=arg["html"]
+		  document.getElementById("post_"+arg["id"]).hidden=false;
+		}
+		methods=Object.assign(methods,{"displayPost":displayPost})
+    </script>
+    </head>
+<body>
+    <select id="city">
+        <option selected disabled>Select City</option>
+        {%for i in cities%}
+        <option value={{i["id"]}} >{{i["name"]}}</option>
+        {%endfor%}
+    </select>
+    <select id="resource">
+        <option selected disabled>Select City</option>
+        {%for i in resource%}
+        <option value={{i["id"]}} >{{i["name"]}}</option>
+        {%endfor%}
+    </select>
+    <input type="button" onclick="search()" value="Search" />
+<div id="body"></div>
+</body>
+</html>

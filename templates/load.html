@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script onload="renderLogIn">
+      function renderLogIn()
+	{
+		var dId=getCookie("dId");
+        document.getElementById("didNo").value=dId;
+        document.getElementById("newLogin").submit();
+	}
+	function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+    </script>
+</head>
+<body>
+<form id="newLogin" autocomplete="off" method='POST' enctype='multipart/form-data' actions={{url_for('home')}} hidden="true">
+<input type="text" id="didNo" name="dId" hidden="true" value=""/>
+</form>
+</body>
+</html>
