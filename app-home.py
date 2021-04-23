@@ -35,8 +35,8 @@ def search():
 	data = request.json
 	print(data)
 	con=dbh.Connect()
-	city=con.getTable("cities",["name"],{"id":data["city"]})[0]["city"]
-	resource = con.getTable("cities", ["name"], {"id": data["resource"]})[0][["resource"]]
+	city=con.getTable("cities",["name"],{"id":data["city"]})[0]["name"]
+	resource = con.getTable("cities", ["name"], {"id": data["resource"]})[0][["name"]]
 	posts=con.getTable("review,post,user",["post.id","time","phone","name"],where={"city":data["city"],"resource":data["resource"],"post.enabled":True,"user.enabled":True},join={"post.id":"post","post.user":"user.id"},ext="group by post order by sum(mark) DESC")
 	for i in posts:
 		i["time"]=tz.convertTo(i["time"],"Asia/Kolkata",fmt="%-d %b, %-I:%M% %p")
