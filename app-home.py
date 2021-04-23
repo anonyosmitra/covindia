@@ -77,9 +77,9 @@ def new():
 			if not isPhoneNo(data["phone"]):
 				con.close()
 				return jsonify({"reply": {"auth": 1, "reply": {"exe": [{"method": "displayError","arg":{"msg":"Invalid Phone No."}}]}}})
-			data["city"]=data["city"].capilatize()
-			data["resource"] = data["resource"].capilatize()
-			data["name"] = data["name"].capilatize()
+			data["city"]=data["city"].capitalize()
+			data["resource"] = data["resource"].capitalize()
+			data["name"] = data["name"].capitalize()
 			info=con.getTable("cities",["id"],{"name":data["city"]})
 			if len(info)==1:
 				data["city"]=info[0]["id"]
