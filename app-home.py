@@ -42,7 +42,7 @@ def search():
 	print(posts)
 	for i in posts:
 		i["time"]=tz.convertTo(i["time"],"Asia/Kolkata",fmt="%-d %b, %-I:%M% %p")
-	return jsonify({"reply": {"auth": 1, "reply": {"html":render_template("load.html",city=city,resource=resource,posts=posts)}}})
+	return jsonify({"reply": {"auth": 1, "reply": {"html":render_template("searchRes.html",city=city,resource=resource,posts=posts)}}})
 
 @app.route('/getPost', methods=['POST'])
 def getPost():
