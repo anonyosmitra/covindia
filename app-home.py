@@ -120,14 +120,14 @@ def vote():
 			con.close()
 			return (jsonify({"reply": {"auth": 1, "reply": {"html": "<h3>Vote Submitted!<h3> <b>Thank you for your assistance.</b>"}}}))
 		else:
-			if info[0]["user"]==dId["id"]:
+			if info[0]["user"]==dId[0]["id"]:
 				return jsonify({"reply": {"auth": 1, "reply": {"exe": [{"method": "displayError", "arg": {"msg": "You can not vote on your own post"}}]}}})
 			else:
-				info=con.getTable("review",["id"],{"user":dId["id"],"post":data["post"]})
+				info=con.getTable("review",["id"],{"user":dId[0]["id"],"post":data["post"]})
 				if len(info)==1:
 					con.updateTable("review",{"mark":data["mark"]},{"id":info[0]["id"]})
 				else:
-					con.insertIntoTable("review",{"user":dId["id"],"post":data["post"],"mark":data["mark"]})
+					con.insertIntoTable("review",{"user":dId[0]["id"],"post":data["post"],"mark":data["mark"]})
 				if data["mark"]==-1:
 					info=con.getTable("review",["sum(mark)"],{"post":data["post"]},ext="group by post")[0]["sum(mark)"]
 					if info==-3:
