@@ -72,6 +72,7 @@ def new():
 			con.close()
 			return jsonify({"reply": {"auth": 1, "reply": {"html":"<h1>Forbidden</h1>"}}})
 		else:
+			formId=data["formId"]
 			data=data["data"]
 			if not isPhoneNo(data["phone"]):
 				con.close()
@@ -91,8 +92,11 @@ def new():
 				data["resource"] = con.insertIntoTable("resources", {"name": data["resource"]}, returnId=True)
 			data["user"]=dId["id"]
 			data["enabled"]=True
-			postId=con.insertIntoTable("post",data,returnId=True)
-			con.insertIntoTable("review",{"post":postId,"user":dId["id"],"mark":0})
+			info=con.getTable("forms",["id"],{"id":formId,"received":0})
+			if len(info)==1:
+				postId=con.insertIntoTable("post",data,returnId=True)
+				con.insertIntoTable("review",{"post":postId,"user":dId["id"],"mark":0})
+				con.updateTable("forms",{"received":1},{"id":formId})
 			con.close()
 			return (jsonify({"reply": {"auth": 1, "reply": {"html":"<h3>Resource Posted!<h3> <b>Thank you for your assistance.</b>"}}}))
 	else:
