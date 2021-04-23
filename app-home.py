@@ -58,11 +58,43 @@ def getPost():
 	else:
 		positives="%s users found this helpful."%(positives[0]["sum(mark)"])
 	return jsonify({"reply": {"auth": 1, "reply": {"exe":[{"method": "displayPost", "arg": {"id":data["id"],"html":render_template("postTemp.html",post=post,dId=data["dId"],verified=verified,positives=positives)}}]}}})
+def isPhoneNo(num):
+	if num[0]=="+":
+		num=num[1:]
+	return num.isnumeric()
 @app.route('/new', methods=['POST'])
 def new():
 	data = request.json
 	if "data" in data:
-		print("todo")
+		con=dbh.Connect()
+		dId=con.getTable("user",["id","enabled"],{"id":data["dId"]})
+		if len(dId)==0 or not dId[0]["enabled"]:
+			con.close()
+			return jsonify({"reply": {"auth": 1, "reply": {"html":"<h1>Forbidden</h1>"}}})
+		else:
+			data=data["data"]
+			if not isPhoneNo(data["phone"]):
+				con.close()
+				return jsonify({"reply": {"auth": 1, "reply": {"exe": [{"method": "displayError","arg":{"msg":"Invalid Phone No."}}]}}})
+			data["city"]=data["city"].capilatize()
+			data["resource"] = data["resource"].capilatize()
+			data["name"] = data["name"].capilatize()
+			info=con.getTable("cities",["id"],{"name":data["city"]})
+			if len(info)==1:
+				data["city"]=info[0]["id"]
+			else:
+				data["city"] = con.insertIntoTable("cities",{"name":data["city"]},returnId=True)
+			info = con.getTable("resources", ["id"], {"name": data["resource"]})
+			if len(info) == 1:
+				data["resource"] = info[0]["id"]
+			else:
+				data["resource"] = con.insertIntoTable("resources", {"name": data["resource"]}, returnId=True)
+			data["user"]=dId["id"]
+			data["enabled"]=True
+			postId=con.insertIntoTable("post",data,returnId=True)
+			con.insertIntoTable("review",{"post":postId,"user":dId["id"],"mark":0})
+			con.close()
+			return (jsonify({"reply": {"auth": 1, "reply": {"html":"<h3>Resource Posted!<h3> <b>Thank you for your assistance.</b>"}}}))
 	else:
 		con=dbh.Connect()
 		cities = con.getTable("cities", ["id", "name"], ext="order by name")
