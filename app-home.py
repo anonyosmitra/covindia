@@ -24,7 +24,7 @@ def home():
 		if dId=="" or len(info)==0:
 			dId=con.insertIntoTable("user",{"ip":request.remote_addr,"enabled":1},returnId=True)
 		else:
-			if info[0]["enabled"]:
+			if not info[0]["enabled"]:
 				con.close()
 				return("<h1>Forbidden</h1>",403)
 		cities=con.getTable("cities",["id","name"],ext="order by name")
