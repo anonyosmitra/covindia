@@ -58,6 +58,18 @@ def getPost():
 	else:
 		positives="%s users found this helpful."%(positives[0]["sum(mark)"])
 	return jsonify({"reply": {"auth": 1, "reply": {"exe":[{"method": "displayPost", "arg": {"id":data["id"],"html":render_template("postTemp.html",post=post,dId=data["dId"],verified=verified,positives=positives)}}]}}})
+@app.route('/new', methods=['POST'])
+def new():
+	data = request.json
+	if "data" in data:
+		print("todo")
+	else:
+		con=dbh.Connect()
+		cities = con.getTable("cities", ["id", "name"], ext="order by name")
+		resources = con.getTable("resource", ["id", "name"], ext="order by name")
+		formId = con.insertIntoTable("forms",{"type":"newPost"},returnId=True)
+		con.close()
+		return(render_template("new.html",cities=cities,resources=resources,formId=formId))
 
 
 if __name__ == '__main__':

@@ -18,6 +18,10 @@
             else
                 document.getElementById("post_"+id).hidden=true;
         }
+        function new()
+        {
+            POST({"dId":dId},"new")
+        }
     function POST(data,route="")
 		{
 		    api="{{url_for('home')}}"
@@ -88,7 +92,7 @@
         <option value={{i["id"]}} >{{i["name"]}}</option>
         {%endfor%}
     </select>
-    <input type="button" onclick="search()" value="Search" />
+    <input type="button" onclick="search()" value="Search" /><input type="button" onclick="new()" value="Add Resource" />
 <div id="body"></div>
 </body>
 </html>
