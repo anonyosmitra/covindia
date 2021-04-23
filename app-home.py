@@ -85,11 +85,11 @@ def new():
 				data["city"]=info[0]["id"]
 			else:
 				data["city"] = con.insertIntoTable("cities",{"name":data["city"]},returnId=True)
-			info = con.getTable("resources", ["id"], {"name": data["resource"]})
+			info = con.getTable("resource", ["id"], {"name": data["resource"]})
 			if len(info) == 1:
 				data["resource"] = info[0]["id"]
 			else:
-				data["resource"] = con.insertIntoTable("resources", {"name": data["resource"]}, returnId=True)
+				data["resource"] = con.insertIntoTable("resource", {"name": data["resource"]}, returnId=True)
 			data["user"]=dId["id"]
 			data["enabled"]=True
 			info=con.getTable("forms",["id"],{"id":formId,"received":0})
