@@ -29,7 +29,7 @@ def home():
 		cities=con.getTable("cities",["id","name"],ext="order by name")
 		resource= con.getTable("resource", ["id", "name"], ext="order by name")
 		con.close()
-		return (render_template("load.html",dId=dId,cities=cities,resource=resource))
+		return (render_template("home.html",dId=dId,cities=cities,resource=resource))
 @app.route('/search', methods=['POST'])
 def search():
 	data = request.json
