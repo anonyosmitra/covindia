@@ -107,8 +107,9 @@ def new():
 			data["user"]=dId[0]["id"]
 			data["enabled"]=True
 			info=con.getTable("forms",["id"],{"id":formId,"received":0})
-			details=data["info"]
-			details=details.split("")
+			details = data["info"].replace("\n", " <br> ")
+			details=details.replace(","," ")
+			details=details.split(" ")
 			for i in details:
 				if len(i) > 0:
 					if isPhoneNo(i):

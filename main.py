@@ -8,6 +8,7 @@ def isPhoneNo(num):
 
 
 def makePhoneN0(num):
+	print("making number: %s" % (num))
 	return ("<a href='tel:%s' rel ='nofollow'>%s</a>" % (num, num))
 
 
@@ -16,6 +17,7 @@ def isLink(link):
 
 
 def makeLink(link):
+	print("making link: %s"%(link))
 	if "@" in link:
 		return ("<a href ='mailto:%s'>%s</a>" % (link, link))
 	else:
