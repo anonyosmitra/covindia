@@ -33,9 +33,9 @@ def fix():
 		for i in info:
 			if len(i)>0:
 				if isPhoneNo(i):
-					j["info"].replace(i, makePhoneN0(i))
+					j["info"]=j["info"].replace(i, makePhoneN0(i))
 				elif isLink(i):
-					j["info"].replace(i, makeLink(i))
+					j["info"]=j["info"].replace(i, makeLink(i))
 		con.updateTable("post",{"info":j["info"]},{"id":j["id"]})
 	con.close()
 fix()
