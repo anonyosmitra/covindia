@@ -110,7 +110,7 @@ def new():
 			details=data["info"]
 			details=details.split("")
 			for i in details:
-				if len(0) > 0:
+				if len(i) > 0:
 					if isPhoneNo(i):
 						data["info"].replace(i,makePhoneN0(i))
 					elif isLink(i):
