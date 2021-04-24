@@ -15,6 +15,18 @@ def makePhoneN0(num):
 def isLink(link):
 	return "." in link and link[-1:]!="."
 
+def formatInfo(a):
+	a=a.replace("\n"," <br> ")
+	a=a.replace('\t'," ")
+	info = a.replace(",", " ")
+	info=info.split(" ")
+	for i in info:
+		if len(i)>0:
+			if isPhoneNo(i):
+				a=a.replace(" %s"%(i)," %s"%(makePhoneN0(i)))
+			elif isLink(i):
+				a=a.replace(" %s"%(i)," %s"%(makeLink(i)))
+	return(a)
 
 def makeLink(link):
 	print("making link: %s"%(link))
@@ -33,15 +45,3 @@ def fix():
 			con.updateTable("post",{"info":info},{"id":j["id"]})
 	con.close()
 fix()
-def formatInfo(a):
-	a=a.replace("\n"," <br> ")
-	a=a.replace('\t'," ")
-	info = a.replace(",", " ")
-	info=info.split(" ")
-	for i in info:
-		if len(i)>0:
-			if isPhoneNo(i):
-				a=a.replace(" %s"%(i)," %s"%(makePhoneN0(i)))
-			elif isLink(i):
-				a=a.replace(" %s"%(i)," %s"%(makeLink(i)))
-	return(a)
