@@ -4,7 +4,7 @@ import dbHandler as dbh
 def isPhoneNo(num):
 	if num[0] == "+":
 		num = num[1:]
-	return num.isnumeric()
+	return len(num)>=6 and num.isnumeric()
 
 
 def makePhoneN0(num):
