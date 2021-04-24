@@ -74,6 +74,18 @@ def makeLink(link):
 		if link[:4]!="http":
 			link="https://"+link
 		return ("<a href='%s' target='_blank'>%s</a> "%(link,link))
+def formatInfo(a):
+	a=a.replace("\n"," <br> ")
+	a=a.replace('\t'," ")
+	info = a.replace(",", " ")
+	info=info.split(" ")
+	for i in info:
+		if len(i)>0:
+			if isPhoneNo(i):
+				a=a.replace(" %s"%(i)," %s"%(makePhoneN0(i)))
+			elif isLink(i):
+				a=a.replace(" %s"%(i)," %s"%(makeLink(i)))
+	return(a)
 @app.route('/new', methods=['POST'])
 def new():
 	data = request.json
@@ -107,15 +119,7 @@ def new():
 			data["user"]=dId[0]["id"]
 			data["enabled"]=True
 			info=con.getTable("forms",["id"],{"id":formId,"received":0})
-			details = data["info"].replace("\n", " <br> ")
-			details=details.replace(","," ")
-			details=details.split(" ")
-			for i in details:
-				if len(i) > 0:
-					if isPhoneNo(i):
-						data["info"].replace(i,makePhoneN0(i))
-					elif isLink(i):
-						data["info"].replace(i,makeLink(i))
+			data["info"]=formatInfo(data["info"])
 			if len(info)==1:
 				postId=con.insertIntoTable("post",data,returnId=True)
 				con.insertIntoTable("review",{"post":postId,"user":dId[0]["id"],"mark":0})
