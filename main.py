@@ -29,6 +29,7 @@ def fix():
 		j["info"]=j["info"].replace("\n"," <br> ")
 		info=j["info"].split(" ")
 		for i in info:
+			print(i)
 			if isPhoneNo(i):
 				j["info"].replace(i, makePhoneN0(i))
 			elif isLink(i):
