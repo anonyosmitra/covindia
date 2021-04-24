@@ -13,7 +13,7 @@ def makePhoneN0(num):
 
 
 def isLink(link):
-	return "." in link
+	return "." in link and link[-1:]!="."
 
 
 def makeLink(link):
