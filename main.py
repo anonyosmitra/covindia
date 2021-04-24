@@ -29,11 +29,11 @@ def fix():
 		j["info"]=j["info"].replace("\n"," <br> ")
 		info=j["info"].split(" ")
 		for i in info:
-			print(i)
-			if isPhoneNo(i):
-				j["info"].replace(i, makePhoneN0(i))
-			elif isLink(i):
-				j["info"].replace(i, makeLink(i))
+			if len(0)>0
+				if isPhoneNo(i):
+					j["info"].replace(i, makePhoneN0(i))
+				elif isLink(i):
+					j["info"].replace(i, makeLink(i))
 		con.updateTable("post",{"info":j["info"]},{"id":j["id"]})
 	con.close()
 fix()
