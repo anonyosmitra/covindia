@@ -35,3 +35,4 @@ def fix():
 				j["info"].replace(i, makeLink(i))
 		con.updateTable("post",{"info":j["info"]},{"id":j["id"]})
 	con.close()
+fix()
