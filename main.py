@@ -28,15 +28,20 @@ def fix():
 	con=dbh.Connect()
 	infos=con.getTable("post",["id","info"])
 	for j in infos:
-		j["info"]=j["info"].replace("\n"," <br> ")
-		info = j["info"].replace(",", " ")
-		info=j["info"].split(" ")
-		for i in info:
-			if len(i)>0:
-				if isPhoneNo(i):
-					j["info"]=j["info"].replace(i, makePhoneN0(i))
-				elif isLink(i):
-					j["info"]=j["info"].replace(i, makeLink(i))
-		con.updateTable("post",{"info":j["info"]},{"id":j["id"]})
+		info=formatInfo(j["info"])
+		if info!=j["info"]:
+			con.updateTable("post",{"info":info},{"id":j["id"]})
 	con.close()
 fix()
+def formatInfo(a):
+	a=a.replace("\n"," <br> ")
+	a=a.replace('\t'," ")
+	info = a.replace(",", " ")
+	info=info.split(" ")
+	for i in info:
+		if len(i)>0:
+			if isPhoneNo(i):
+				a=a.replace(" %s"%(i)," %s"%(makePhoneN0(i)))
+			elif isLink(i):
+				a=a.replace(" %s"%(i)," %s"%(makeLink(i)))
+	return(a)
