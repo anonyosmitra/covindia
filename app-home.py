@@ -63,6 +63,17 @@ def isPhoneNo(num):
 	if num[0]=="+":
 		num=num[1:]
 	return num.isnumeric()
+def makePhoneN0(num):
+	return("<a href='tel:%s' rel ='nofollow'>%s</a>"%(num,num))
+def isLink(link):
+	return "." in link
+def makeLink(link):
+	if "@" in link:
+		return("<a href ='mailto:%s'>%s</a>"%(link,link))
+	else:
+		if link[:4]!="http":
+			link="https://"+link
+		return ("<a href='%s' target='_blank'>%s</a> "%(link,link))
 @app.route('/new', methods=['POST'])
 def new():
 	data = request.json
@@ -96,6 +107,13 @@ def new():
 			data["user"]=dId[0]["id"]
 			data["enabled"]=True
 			info=con.getTable("forms",["id"],{"id":formId,"received":0})
+			details=data["info"]
+			details=details.split("")
+			for i in details:
+				if isPhoneNo(i):
+					data["info"].replace(i,makePhoneN0(i))
+				elif isLink(i):
+					data["info"].replace(i,makeLink(i))
 			if len(info)==1:
 				postId=con.insertIntoTable("post",data,returnId=True)
 				con.insertIntoTable("review",{"post":postId,"user":dId[0]["id"],"mark":0})
