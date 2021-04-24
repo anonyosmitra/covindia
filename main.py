@@ -29,6 +29,7 @@ def fix():
 	infos=con.getTable("post",["id","info"])
 	for j in infos:
 		j["info"]=j["info"].replace("\n"," <br> ")
+		info = j["info"].replace(",", " ")
 		info=j["info"].split(" ")
 		for i in info:
 			if len(i)>0:
