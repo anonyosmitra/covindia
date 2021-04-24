@@ -110,10 +110,11 @@ def new():
 			details=data["info"]
 			details=details.split("")
 			for i in details:
-				if isPhoneNo(i):
-					data["info"].replace(i,makePhoneN0(i))
-				elif isLink(i):
-					data["info"].replace(i,makeLink(i))
+				if len(0) > 0:
+					if isPhoneNo(i):
+						data["info"].replace(i,makePhoneN0(i))
+					elif isLink(i):
+						data["info"].replace(i,makeLink(i))
 			if len(info)==1:
 				postId=con.insertIntoTable("post",data,returnId=True)
 				con.insertIntoTable("review",{"post":postId,"user":dId[0]["id"],"mark":0})
