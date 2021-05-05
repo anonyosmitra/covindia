@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <title>Covid Resources</title>
     <script>
+        link="{{url_for('shared')}}"
         dId={{dId}};
         methods={}
         cache={}
         cache["erMsgn"]=0
         function renderApp(){
-        document.cookie="dId="+dId;
+        if(dId==0)
+            POST({"cmd":1},"getDid")
+        else
+            document.cookie="dId="+dId;
         document.getElementById("city").focus();}
         function search()
         {
@@ -67,11 +71,15 @@
 		}}
 		function displayPost(arg)
 		{
-		  console.log(arg)
 		  document.getElementById("post_"+arg["id"]).innerHTML=arg["html"]
 		  document.getElementById("post_"+arg["id"]).hidden=false;
 		}
-		methods=Object.assign(methods,{"displayPost":displayPost,"displayError":displayError,"focusOn":focusOn})
+		function setDid(arg)
+		{
+		    document.cookie="dId="+arg["dId"];
+		    dId=arg["dId"]
+		}
+		methods=Object.assign(methods,{"displayPost":displayPost,"displayError":displayError,"focusOn":focusOn,"setDid":setDid})
 				function keyInJson(k,json)
 		{
 			for(var i in json)
@@ -108,6 +116,9 @@
 		function focusOn(arg){
 			document.getElementById(arg["div"]).focus();
 		}
+		function cpToClipboard(id,link){
+
+		}
     </script>
     </head>
 <body>
@@ -123,8 +134,7 @@
         <option value={{i["id"]}} >{{i["name"]}}</option>
         {%endfor%}
     </select>
-    <input type="button" onclick="search()" value="Search" /><input style="margin-left: 20px;" type="button" onclick="newPost()" value="Add Resource" />
-
+    <input type="button" onclick="search()" value="Search" /><input id="cp_0" value="Copy Link" onclick="cpToClipboard(0,'{{url_for('home')}}')" /><input style="margin-left: 20px;" type="button" onclick="newPost()" value="Add Resource" /><input id="clipboard" value="" hidden="true"/>
 <div id="body"></div>
 </body>
 </html>

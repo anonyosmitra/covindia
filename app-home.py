@@ -78,6 +78,7 @@ def formatInfo(a):
 	a=a.replace("\n"," <br> ")
 	a=a.replace('\t'," ")
 	info = a.replace(",", " ")
+	info=" "+info
 	info=info.split(" ")
 	for i in info:
 		if len(i)>0:
@@ -86,6 +87,30 @@ def formatInfo(a):
 			elif isLink(i):
 				a=a.replace(" %s"%(i)," %s"%(makeLink(i)))
 	return(a)
+@app.route('/link', methods=['GET'])
+def shared():
+	data = request.args.to_dict()
+	con=dbh.Connect()
+	if "post" in data:
+		post = con.getTable("post", ["id", "time", "phone", "info", "name", "user","city","resource"], {"id": data["post"]})[0]
+		post["time"] = tz.convertTo(post["time"], "Asia/Kolkata", fmt="%-d %b, %-I:%M %p")
+		positives = con.getTable("review", ["sum(mark)"], where=con.appendQuery("post=%0 and mark>-1", [data["post"]]))
+		verified = con.getTable("review", ["time"], where=con.appendQuery("post=%0 and mark>-1", [data["post"]]), ext="order by time DESC LIMIT 1")[0]["time"]
+		verified = tz.convertTo(verified, "Asia/Kolkata", fmt="%-d %b, %-I:%M %p")
+		post["info"] = post["info"].replace("\n", "<br>")
+		if len(positives) == 0:
+			positives = ""
+		else:
+			positives = "%s users found this helpful." % (positives[0]["sum(mark)"])
+		html=render_template("postTemp.html",post=post,dId=0,verified=verified,positives=positives)
+		resource=con.getTable("resource",["name"],{"id":post["resource"]})
+		city=con.getTable("cities",["name"],{"id":post["city"]})
+
+	con.close()
+@app.route('/getDid', methods=['POST'])
+def getDid():
+	dId = dbh.insertIntoTable("user", {"ip": request.remote_addr, "enabled": 1}, returnId=True)
+	return jsonify({"reply": {"auth": 1, "reply": {"exe": [{"method": "setDid","arg":{"dId":dId}}]}}})
 @app.route('/new', methods=['POST'])
 def new():
 	data = request.json
