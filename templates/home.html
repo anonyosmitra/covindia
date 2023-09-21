@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid Resources</title>
+    <script>
+        link="{{url_for('shared')}}"
+        dId={{dId}};
+        methods={}
+        cache={}
+        cache["erMsgn"]=0
+        function renderApp(){
+        if(dId==0)
+            POST({"cmd":1},"getDid")
+        else
+            document.cookie="dId="+dId;
+        document.getElementById("city").focus();}
+        function search()
+        {
+            POST({"city":document.getElementById("city").value,"resource":document.getElementById("resource").value},"search")
+        }
+        function loadPost(id)
+        {
+            if(document.getElementById("post_"+id).hidden)
+                POST({"id":id,"dId":dId},"getPost")
+            else
+                document.getElementById("post_"+id).hidden=true;
+        }
+        function newPost()
+        {
+            POST({"dId":dId},"new")
+        }
+    function POST(data,route="")
+		{
+		    api="{{url_for('home')}}"
+			getApp.open('POST',api+route);
+			getApp.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+			getApp.send(JSON.stringify(data))
+		}
+		var getApp = new XMLHttpRequest();
+		getApp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+			var data = JSON.parse(this.response)["reply"];
+			console.log(data);
+			if(data["auth"]===1)
+			{
+		if(keyInJson('html',data["reply"])){
+				document.getElementById('body').innerHTML=data["reply"]["html"];
+				}
+		if(keyInJson('pageName',data["reply"])){
+			setPageName(data["reply"]["pageName"]);
+		}
+		if(keyInJson('exe',data["reply"]))
+		{
+			for(var i=0;i<data["reply"]['exe'].length;i++)
+			{
+
+				methods[data["reply"]['exe'][i]["method"]](data["reply"]['exe'][i]['arg']);
+			}
+		if(keyInJson('run',data["reply"]))
+		{
+			methods[data["reply"]["run"]]();
+		}
+			}}
+			else
+			{
+				console.log("reload page");
+				alert("session expired! click ok to reload app");
+				location["href"]="http://fluidos.anonyo.net";
+			}
+		}}
+		function displayPost(arg)
+		{
+		  document.getElementById("post_"+arg["id"]).innerHTML=arg["html"]
+		  document.getElementById("post_"+arg["id"]).hidden=false;
+		}
+		function setDid(arg)
+		{
+		    document.cookie="dId="+arg["dId"];
+		    dId=arg["dId"]
+		}
+		methods=Object.assign(methods,{"displayPost":displayPost,"displayError":displayError,"focusOn":focusOn,"setDid":setDid})
+				function keyInJson(k,json)
+		{
+			for(var i in json)
+			{
+				if(i===k)
+					return(true);
+			}
+			return(false);
+		}
+				function displayError(arg)
+		{
+			i=cache['erMsgn']++;
+			document.getElementById('errors').innerHTML+="<div id=\"erMsgD_"+i+"\"><input type=\"button\" value=\"X\" onclick=\"closeError("+i+")\"/>"+arg["msg"]+"</div>";
+			setTimeout(function() { closeError(i); }, 10000);
+		}
+		function closeError(id)
+		{
+			document.getElementById("erMsgD_"+id).remove();
+		}
+		function submitNew(id){
+		data={}
+		data["city"]=document.getElementById("new_city").value;
+		data["resource"]=document.getElementById("new_resource").value;
+		data["name"]=document.getElementById("new_name").value;
+		data["phone"]=document.getElementById("new_phone").value;
+		data["info"]=document.getElementById("new_info").value;
+		console.log(data)
+		POST({"dId":dId,"data":data,"formId":id},"new")
+		}
+		function vote(mark,post)
+		{
+		    POST({"dId":dId,"mark":mark,"post":post},"vote")
+		}
+		function focusOn(arg){
+			document.getElementById(arg["div"]).focus();
+		}
+		function cpToClipboard(id,link){
+
+		}
+    </script>
+    </head>
+<body>
+    <select onload="renderApp()" id="city">
+        <option selected disabled>Select Location</option>
+        {%for i in cities%}
+        <option value={{i["id"]}} >{{i["name"]}}</option>
+        {%endfor%}
+    </select>
+    <select id="resource">
+        <option selected disabled>Select Resource</option>
+        {%for i in resource%}
+        <option value={{i["id"]}} >{{i["name"]}}</option>
+        {%endfor%}
+    </select>
+    <input type="button" onclick="search()" value="Search" /><input id="cp_0" value="Copy Link" onclick="cpToClipboard(0,'{{url_for('home')}}')" /><input style="margin-left: 20px;" type="button" onclick="newPost()" value="Add Resource" /><input id="clipboard" value="" hidden="true"/>
+<div id="body"></div>
+</body>
+</html>

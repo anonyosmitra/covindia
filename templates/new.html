@@ -1,0 +1,17 @@
+<input placeholder="Location*" list="cities" id="new_city"><br>
+<datalist id="cities">
+{%for i in cities%}
+  <option value="{{i["name"]}}" />
+  {%endfor%}
+  </datalist>
+<input placeholder="Resource*" list="resources" id="new_resource"><br>
+<datalist id="resources">
+{%for i in resources%}
+  <option value="{{i["name"]}}" />
+  {%endfor%}
+  </datalist>
+<input placeholder="Name" id="new_name"><br>
+<input placeholder="Phone No*" id="new_phone"><br>
+<textarea placeholder="details" rows="6" cols="50" id="new_info"></textarea><br>
+<input type="button" onclick="submitNew({{formId}})" value="Submit">
+

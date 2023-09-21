@@ -1,0 +1,10 @@
+<b>{{post["name"]}}</b>
+{%if dId==post["user"]%}{%else%}
+<input type="button" onclick="vote(1,{{post["id"]}})" value="Vote Up" /> <input type="button" onclick="vote(-1,{{post["id"]}})" value="Vote Down" />
+{%endif%}
+<br>
+{{positive}}<br>
+Verified on: {{verified}}<br>
+Phone: <a href="tel:{{post["phone"]}}" rel="nofollow">{{post["phone"]}}</a><br>
+Posted on: {{post["time"]}}<br>
+<div>{{post["info"]|safe}}</div>

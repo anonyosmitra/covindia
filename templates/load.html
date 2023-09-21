@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Covid Resources</title>
+    <script>
+      function renderLogIn()
+	{
+		var dId=getCookie("dId");
+        document.getElementById("newLogin").innerHTML="<input type=\"text\" name=\"dId\" hidden=\"true\" value="+dId+" />"
+        console.log(dId)
+        document.getElementById("newLogin").submit();
+	}
+	function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+    </script>
+</head>
+<body onload="renderLogIn()">
+<form id="newLogin" autocomplete="off" method='POST' enctype='multipart/form-data' actions={{url_for('home')}} hidden="true" >
+</form>
+</body>
+</html>

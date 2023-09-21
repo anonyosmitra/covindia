@@ -1,0 +1,5 @@
+<h3>Results for {{resource}} in {{city}}</h3>
+{%for i in posts%}
+<div class="resTitle"  style="margin-top:20px;" onclick="loadPost({{i["id"]}})">{{i["name"]}}, Posted: {{i["time"]}} <a href="tel:{{i["phone"]}}" rel="nofollow">Call</a></div>
+<div id="post_{{i["id"]}}" hidden=true></div>
+{%endfor%}
